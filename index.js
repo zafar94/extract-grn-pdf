@@ -170,14 +170,14 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
                 })
             }
             // console.log('templatePayload', templatePayload)
-            const html = await this.emailService.renderEmailTemplate(
+            const html = await EmailService.renderEmailTemplate(
                 TemplateNameEnums.purchaseOrderGRN,
                 templatePayload,
             );
-            pdfPromises.push(this.pdfService.getPdfBuffer(html, { timeout: 1800000 }).then(pdfBuffer => {
-                console.log(templatePayload.grnName)
-                zip.file(`GRN--NEW--${templatePayload.grnName}---${templatePayload.warehouse}---${templatePayload.date}.pdf`, pdfBuffer);
-            }));
+            // pdfPromises.push(this.pdfService.getPdfBuffer(html, { timeout: 1800000 }).then(pdfBuffer => {
+            //     console.log(templatePayload.grnName)
+            //     zip.file(`GRN--NEW--${templatePayload.grnName}---${templatePayload.warehouse}---${templatePayload.date}.pdf`, pdfBuffer);
+            // }));
         }
         catch (err) {
             // handle error
