@@ -4,6 +4,7 @@ const PDFDocument = require('pdfkit');
 require('aws-sdk/lib/maintenance_mode_message').suppress = true;
 const fs = require('fs');
 const _ = require('lodash');
+const moment = require('moment');
 
 const dbConfig = {
     user: 'postgres',
