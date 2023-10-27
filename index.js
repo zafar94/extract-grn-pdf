@@ -178,7 +178,6 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
             }
             // console.log('templatePayload', templatePayload)
             const html = await EmailService.renderEmailTemplate(
-                TemplateNameEnums.purchaseOrderGRN,
                 templatePayload,
             );
             console.log('------HTNLLNLNLNLNN---->>>', html)
