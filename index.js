@@ -284,3 +284,6 @@ function renderEmailTemplate(data, options) {
         console.log('renderEmailTemplate ERRROR', err);
     }
 }
+
+function generatePDF(htmlContent) {
+}
