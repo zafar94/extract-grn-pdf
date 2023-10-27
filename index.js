@@ -107,6 +107,7 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
             const receiptsCombined = _.uniq(_.flatten(uniqueGrns.map((grn) => grn.invoicereceipts)));
             const receipts = []
             const textToRemove = 'https://airlift-grocer-production-uploads.s3.ap-southeast-1.amazonaws.com/grocer/'
+            
             for (let receipt of receiptsCombined) {
 
                 if (receipt.includes(textToRemove)) {
@@ -116,6 +117,7 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
                     receipts.push(url + receipt);
                 }
             }
+            console.log('FINAL receipts-->>', receipts)
             let totalPOAmount = 0;
 
             for (const item of uniqueGrns) {
@@ -250,31 +252,6 @@ function groupBy(collection, property) {
     }
     return result;
 }
-
-// function generatePDF(htmlContent) {
-//     return new Promise((resolve, reject) => {
-//         const doc = new PDFDocument();
-//         const buffers = [];
-//         const options = { format: 'A4' };
-
-//         doc.on('data', (buffer) => buffers.push(buffer));
-//         doc.on('end', () => {
-//             const pdfBuffer = Buffer.concat(buffers);
-
-//             pdf.create(htmlContent).toBuffer((err, htmlPdfBuffer) => {
-//                 if (err) {
-//                     reject(err);
-//                 } else {
-//                     const mergedBuffer = Buffer.concat([pdfBuffer, htmlPdfBuffer]);
-//                     resolve(mergedBuffer);
-//                 }
-//             });
-//         });
-
-
-//         doc.end();
-//     });
-// }
 
 function renderEmailTemplate(data, options) {
     try {
