@@ -3,7 +3,7 @@ const path = require('path');
 
 class EmailService {
 
-    async renderEmailTemplate(templateName, data, options) {
+    async renderEmailTemplate(data, options) {
         try {
             const templateCompletePath = path.resolve('./purchaseOrderGRN.ejs');
             return ejs.renderFile(templateCompletePath, data, options);
