@@ -10,7 +10,6 @@ const ejs = require('ejs');
 const path = require('path');
 var html_to_pdf = require('html-pdf-node');
 const puppeteer = require('puppeteer')
-const fs = require('fs')
 
 const dbConfig = {
     user: 'postgres',
