@@ -66,7 +66,7 @@ function generatePDF(grn) {
 handler();
 
 
-async function getBulkPurchaseOrderGRNPdfs() {
+async function getBulkPurchaseOrderGRNPdfs(client) {
     const zip = new jszip();
     const purchaseOrders = await this.purchaseOrderRepository.getPOGRNDetailsWithSupplierProductDetails(input.grnIds);
     const groupByPoId = this.groupBy(purchaseOrders, 'id');
