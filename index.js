@@ -128,7 +128,7 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
                 // poDeliveryPersonContact: po[0].deliverypersoncontact,
                 checkInUserName: po[0].firstname ? `${po[0].firstname} ${po[0].lastname}` : '-',
                 checkInUserContact: po[0].checkinusercontact ? po[0].checkinusercontact : '-',
-                checkInTime: moment.tz(po[0].createdat, 'Asia/Karachi').format('YYYY-MM-DD HH:mm'), //done
+                checkInTime: moment(po[0].createdat).format('YYYY-MM-DD HH:mm'), //done
                 grnName: po[0].grnname,
                 distributorName: po[0].suppliername,
                 // salesTaxStatus: po[0].salestax && pog.salestax > 0 ? 'Exclusive' : 'Inclusive',
