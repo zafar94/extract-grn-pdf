@@ -31,6 +31,8 @@ handler = async (event, context) => {
         //     await generateAndDownloadPDF(grn);
         // }
 
+        await getBulkPurchaseOrderGRNPdfs(client)
+
         client.release();
 
         return 'Process completed successfully';
