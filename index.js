@@ -72,6 +72,7 @@ async function generateAndDownloadPDF(grn) {
 handler();
 
 
+
 async function getBulkPurchaseOrderGRNPdfs(client) {
     // const zip = new jszip();
     console.log('getPOGRNDetailsWithSupplierProductDetails()', getPOGRNDetailsWithSupplierProductDetails())
@@ -199,9 +200,8 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
 }
 
 
-async function getPOGRNDetailsWithSupplierProductDetails() {
-    const query = `
-    select po.id id, po.created_at createdAt, d.name supplierName,
+async function getPOGRNDetailsWithSupplierProductDetails(client) {
+    const result = await client.query(`select po.id id, po.created_at createdAt, d.name supplierName,
         po.total_price totalPrice, w.name warehouseName, p.name productName,
         poi.id purchaseOrderItemId,
         poi.check_in_total_price productTotalPrice, poi.check_in_unit_price productUnitPrice, poi.units productUnits, poi.checked_in_quantity checkedInQuantity,
@@ -225,9 +225,9 @@ async function getPOGRNDetailsWithSupplierProductDetails() {
         and pog.deleted_at is null
         and pogi.deleted_at is null
         and pogi."type" = 'FINAL'
-        and pog.id in (69887, 70110)`;
+        and pog.id in (69887, 70110)`);
 
-    return query;
+    return result;
 }
 
 function groupBy(collection, property) {
