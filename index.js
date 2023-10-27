@@ -68,7 +68,7 @@ handler();
 
 async function getBulkPurchaseOrderGRNPdfs(client) {
     const zip = new jszip();
-    const purchaseOrders = await this.purchaseOrderRepository.getPOGRNDetailsWithSupplierProductDetails(input.grnIds);
+    const purchaseOrders = await client.query(getPOGRNDetailsWithSupplierProductDetails);
     const groupByPoId = this.groupBy(purchaseOrders, 'id');
     const pdfPromises = [];
     // console.log('groupByPoId-->', groupByPoId.length)
@@ -214,6 +214,6 @@ async function getPOGRNDetailsWithSupplierProductDetails() {
         and pogi.deleted_at is null
         and pogi."type" = 'FINAL'
         and pog.id in (${grnIds})`;
-    
+
     return query;
 }
