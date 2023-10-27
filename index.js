@@ -271,7 +271,7 @@ function generatePDF(htmlContent) {
     });
 }
 
-renderEmailTemplate(data, options) {
+function renderEmailTemplate(data, options) {
     try {
         const templateCompletePath = path.resolve('./purchaseOrderGRN.ejs');
         return ejs.renderFile(templateCompletePath, data, options);
