@@ -5,7 +5,7 @@ require('aws-sdk/lib/maintenance_mode_message').suppress = true;
 const fs = require('fs');
 const _ = require('lodash');
 const moment = require('moment');
-const EmailService = require('./EmailService'); 
+const EmailService = require('./EmailService');
 
 const dbConfig = {
     user: 'postgres',
@@ -235,4 +235,34 @@ function groupBy(collection, property) {
         }
     }
     return result;
+}
+
+function generatePDF(htmlContent) {
+    return new Promise((resolve, reject) => {
+        const doc = new PDFDocument();
+        const buffers = [];
+
+        doc.on('data', (buffer) => buffers.push(buffer));
+        doc.on('end', () => {
+            const pdfBuffer = Buffer.concat(buffers);
+
+            // Now, convert the HTML content to a PDF and merge it with the existing PDF
+            pdf.create(htmlContent).toBuffer((err, htmlPdfBuffer) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    // Merge the PDFs (doc and htmlPdfBuffer)
+                    const mergedBuffer = Buffer.concat([pdfBuffer, htmlPdfBuffer]);
+                    resolve(mergedBuffer);
+                }
+            });
+        });
+
+        // Add more content to the PDF document if needed
+        // Example:
+        // doc.text('Some text');
+
+        // End the PDF document
+        doc.end();
+    });
 }
