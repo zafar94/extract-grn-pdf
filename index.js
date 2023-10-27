@@ -9,6 +9,7 @@ const EmailService = require('./email-service');
 const ejs = require('ejs');
 const path = require('path');
 var html_to_pdf = require('html-pdf-node');
+const puppeteer = require('puppeteer')
 
 const dbConfig = {
     user: 'postgres',
