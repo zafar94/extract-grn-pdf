@@ -20,11 +20,12 @@ handler = async (event, context) => {
 
     try {
         const client = await pool.connect();
-       
+
         // const grnQuery = 'SELECT * FROM purchase_order_grn LIMIT 2'; // Adjust SQL query
         // const result = await client.query(grnQuery);
 
         // const grns = result.rows;
+        // console.log('grns', grns)
         // const calculatedGRNs = grns;
 
         // for (const grn of calculatedGRNs) {
@@ -75,13 +76,12 @@ handler();
 
 async function getBulkPurchaseOrderGRNPdfs(client) {
     // const zip = new jszip();
-    console.log('getPOGRNDetailsWithSupplierProductDetails()', getPOGRNDetailsWithSupplierProductDetails())
-    console.log('getPOGRNDetailsWithSupplierProductDetails()--?', getPOGRNDetailsWithSupplierProductDetails)
+
     const purchaseOrders = await getPOGRNDetailsWithSupplierProductDetails(client);
     const groupByPoId = groupBy(purchaseOrders, 'id');
     const pdfPromises = [];
     // console.log('groupByPoId-->', groupByPoId.length)
-    console.log('purchaseOrders',purchaseOrders)
+    console.log('purchaseOrders', purchaseOrders)
     for (const po of groupByPoId) {
         try {
 
@@ -181,7 +181,7 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
                 TemplateNameEnums.purchaseOrderGRN,
                 templatePayload,
             );
-
+            console.log('------HTNLLNLNLNLNN---->>>', html)
             await generateAndDownloadPDF(html)
 
             // pdfPromises.push(this.pdfService.getPdfBuffer(html, { timeout: 1800000 }).then(pdfBuffer => {
