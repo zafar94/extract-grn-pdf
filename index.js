@@ -292,7 +292,8 @@ async function generatePDF(htmlContent) {
 
     const page = await browser.newPage()
 
-    const html = fs.readFileSync(`${__dirname}/template.html`, 'utf8')
+    const html = htmlContent;
+    // const html = fs.readFileSync(`${__dirname}/template.html`, 'utf8')
     await page.setContent(html, {
         waitUntil: 'domcontentloaded'
     })
