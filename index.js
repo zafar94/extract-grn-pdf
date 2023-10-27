@@ -253,6 +253,7 @@ function generatePDF(htmlContent) {
     return new Promise((resolve, reject) => {
         const doc = new PDFDocument();
         const buffers = [];
+        const options = { format: 'A4' };
 
         doc.on('data', (buffer) => buffers.push(buffer));
         doc.on('end', () => {
