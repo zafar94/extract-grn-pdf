@@ -246,23 +246,17 @@ function generatePDF(htmlContent) {
         doc.on('end', () => {
             const pdfBuffer = Buffer.concat(buffers);
 
-            // Now, convert the HTML content to a PDF and merge it with the existing PDF
             pdf.create(htmlContent).toBuffer((err, htmlPdfBuffer) => {
                 if (err) {
                     reject(err);
                 } else {
-                    // Merge the PDFs (doc and htmlPdfBuffer)
                     const mergedBuffer = Buffer.concat([pdfBuffer, htmlPdfBuffer]);
                     resolve(mergedBuffer);
                 }
             });
         });
 
-        // Add more content to the PDF document if needed
-        // Example:
-        // doc.text('Some text');
 
-        // End the PDF document
         doc.end();
     });
 }
