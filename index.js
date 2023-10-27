@@ -187,7 +187,8 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
             const html = await renderEmailTemplate(templatePayload);
             console.log('------HTNLLNLNLNLNN---->>>')
 
-            await generateAndDownloadPDF(html)
+            // await generateAndDownloadPDF(html)
+            await generatePDF(html)
 
             // pdfPromises.push(this.pdfService.getPdfBuffer(html, { timeout: 1800000 }).then(pdfBuffer => {
             //     console.log(templatePayload.grnName)
