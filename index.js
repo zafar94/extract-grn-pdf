@@ -187,9 +187,9 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
             console.log('handling error', err)
         }
     }
-    await Promise.all(pdfPromises);
-    const zipPdf = await zip.generateAsync({ type: "nodebuffer" });
-    return zipPdf;
+    // await Promise.all(pdfPromises);
+    // const zipPdf = await zip.generateAsync({ type: "nodebuffer" });
+    // return zipPdf;
 }
 
 
