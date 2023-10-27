@@ -303,7 +303,7 @@ async function generatePDF(htmlContent) {
 
     await page.pdf({
         format: 'A4',
-        path: `${__dirname}/my-fance-invoice.pdf`
+        path: `./my-fance-invoice.pdf`
     })
 
     await browser.close()
