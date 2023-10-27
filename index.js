@@ -251,30 +251,30 @@ function groupBy(collection, property) {
     return result;
 }
 
-function generatePDF(htmlContent) {
-    return new Promise((resolve, reject) => {
-        const doc = new PDFDocument();
-        const buffers = [];
-        const options = { format: 'A4' };
+// function generatePDF(htmlContent) {
+//     return new Promise((resolve, reject) => {
+//         const doc = new PDFDocument();
+//         const buffers = [];
+//         const options = { format: 'A4' };
 
-        doc.on('data', (buffer) => buffers.push(buffer));
-        doc.on('end', () => {
-            const pdfBuffer = Buffer.concat(buffers);
+//         doc.on('data', (buffer) => buffers.push(buffer));
+//         doc.on('end', () => {
+//             const pdfBuffer = Buffer.concat(buffers);
 
-            pdf.create(htmlContent).toBuffer((err, htmlPdfBuffer) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    const mergedBuffer = Buffer.concat([pdfBuffer, htmlPdfBuffer]);
-                    resolve(mergedBuffer);
-                }
-            });
-        });
+//             pdf.create(htmlContent).toBuffer((err, htmlPdfBuffer) => {
+//                 if (err) {
+//                     reject(err);
+//                 } else {
+//                     const mergedBuffer = Buffer.concat([pdfBuffer, htmlPdfBuffer]);
+//                     resolve(mergedBuffer);
+//                 }
+//             });
+//         });
 
 
-        doc.end();
-    });
-}
+//         doc.end();
+//     });
+// }
 
 function renderEmailTemplate(data, options) {
     try {
