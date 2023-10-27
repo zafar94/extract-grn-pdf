@@ -58,22 +58,6 @@ async function generateAndDownloadPDF(grn) {
     console.log(`Downloaded PDF for GRN ID: ${grn.id} to ${localFilePath}`);
 }
 
-// function generatePDF(grn) {
-//     return new Promise((resolve) => {
-//         const doc = new PDFDocument();
-//         // Customize PDF content for the GRN
-//         doc.text(`GRN ID: ${grn.id}`);
-//         // Add more content as needed
-//         const buffers = [];
-//         doc.on('data', (buffer) => buffers.push(buffer));
-//         doc.on('end', () => {
-//             const pdfBuffer = Buffer.concat(buffers);
-//             resolve(pdfBuffer);
-//         });
-//         doc.end();
-//     });
-// }
-
 handler();
 
 
