@@ -285,5 +285,26 @@ function renderEmailTemplate(data, options) {
     }
 }
 
-function generatePDF(htmlContent) {
+async function generatePDF(htmlContent) {
+    const browser = await puppeteer.launch({
+        headless: true
+    })
+
+    const page = await browser.newPage()
+
+    const html = fs.readFileSync(`${__dirname}/template.html`, 'utf8')
+    await page.setContent(html, {
+        waitUntil: 'domcontentloaded'
+    })
+
+    const pdfBuffer = await page.pdf({
+        format: 'A4'
+    })
+
+    await page.pdf({
+        format: 'A4',
+        path: `${__dirname}/my-fance-invoice.pdf`
+    })
+
+    await browser.close()
 }
