@@ -78,6 +78,7 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
     const groupByPoId = groupBy(purchaseOrders, 'id');
     const pdfPromises = [];
     // console.log('groupByPoId-->', groupByPoId.length)
+    console.log('purchaseOrders',purchaseOrders)
     for (const po of groupByPoId) {
         try {
 
@@ -177,6 +178,9 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
                 TemplateNameEnums.purchaseOrderGRN,
                 templatePayload,
             );
+
+            await generateAndDownloadPDF(html)
+
             // pdfPromises.push(this.pdfService.getPdfBuffer(html, { timeout: 1800000 }).then(pdfBuffer => {
             //     console.log(templatePayload.grnName)
             //     zip.file(`GRN--NEW--${templatePayload.grnName}---${templatePayload.warehouse}---${templatePayload.date}.pdf`, pdfBuffer);
@@ -219,7 +223,7 @@ async function getPOGRNDetailsWithSupplierProductDetails() {
         and pog.deleted_at is null
         and pogi.deleted_at is null
         and pogi."type" = 'FINAL'
-        and pog.id in (${grnIds})`;
+        and pog.id in (69887, 70110)`;
 
     return query;
 }
