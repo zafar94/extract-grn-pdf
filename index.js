@@ -5,6 +5,7 @@ require('aws-sdk/lib/maintenance_mode_message').suppress = true;
 const fs = require('fs');
 const _ = require('lodash');
 const moment = require('moment');
+const EmailService = require('./EmailService'); 
 
 const dbConfig = {
     user: 'postgres',
