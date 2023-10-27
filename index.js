@@ -77,7 +77,7 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
     // const zip = new jszip();
     console.log('getPOGRNDetailsWithSupplierProductDetails()', getPOGRNDetailsWithSupplierProductDetails())
     console.log('getPOGRNDetailsWithSupplierProductDetails()--?', getPOGRNDetailsWithSupplierProductDetails)
-    const purchaseOrders = await client.query(getPOGRNDetailsWithSupplierProductDetails());
+    const purchaseOrders = await getPOGRNDetailsWithSupplierProductDetails(client);
     const groupByPoId = groupBy(purchaseOrders, 'id');
     const pdfPromises = [];
     // console.log('groupByPoId-->', groupByPoId.length)
