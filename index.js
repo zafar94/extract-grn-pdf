@@ -1,50 +1,32 @@
 const AWS = require('aws-sdk');
 const { Pool } = require('pg');
 const PDFDocument = require('pdfkit');
+require('aws-sdk/lib/maintenance_mode_message').suppress = true;
+const fs = require('fs');
 
-const s3 = new AWS.S3();
 const dbConfig = {
-    user: 'your_db_user',
-    host: 'your_db_host',
-    database: 'your_db_name',
-    password: 'your_db_password',
-    port: 5432, // Change to your database port
+    user: 'postgres',
+    host: 'grocerapi-snapshot-13-07-2022-zafar-cluster.cluster-ci41v1phpkmy.ap-southeast-1.rds.amazonaws.com',
+    database: 'airlift_grocer',
+    password: 'grocerapi-snapshot-13-07-2022',
+    port: 5432, 
 };
 
-exports.handler = async (event, context) => {
-    // Create a PostgreSQL connection pool
+handler = async (event, context) => {
     const pool = new Pool(dbConfig);
 
     try {
-        // Fetch 10 GRNs from the PostgreSQL database
         const client = await pool.connect();
-        const grnQuery = 'SELECT * FROM your_grn_table LIMIT 10'; // Adjust SQL query
+        const grnQuery = 'SELECT * FROM purchase_order_grn LIMIT 2'; // Adjust SQL query
         const result = await client.query(grnQuery);
 
-        // Perform calculations with the GRNs
         const grns = result.rows;
-        const calculatedGRNs = grns.map(calculateGRN); // Implement your calculations
+        const calculatedGRNs = grns;
 
-        // Generate PDFs for each GRN
-        const pdfPromises = calculatedGRNs.map(generatePDF);
+        for (const grn of calculatedGRNs) {
+            await generateAndDownloadPDF(grn);
+        }
 
-        // Wait for all PDFs to be generated
-        const pdfBuffers = await Promise.all(pdfPromises);
-
-        // Upload PDFs to S3
-        const s3UploadPromises = pdfBuffers.map((pdfBuffer, index) => {
-            const s3Params = {
-                Bucket: 'your-s3-bucket-name',
-                Key: `grn_${grns[index].id}.pdf`,
-                Body: pdfBuffer,
-            };
-            return s3.upload(s3Params).promise();
-        });
-
-        // Wait for all uploads to complete
-        await Promise.all(s3UploadPromises);
-
-        // Release the database connection
         client.release();
 
         return 'Process completed successfully';
@@ -52,14 +34,17 @@ exports.handler = async (event, context) => {
         console.error(error);
         return 'Error processing GRNs';
     } finally {
-        // Release the database connection from the pool
         pool.end();
     }
 };
 
-function calculateGRN(grn) {
-    // Implement your calculations here
-    return grn;
+async function generateAndDownloadPDF(grn) {
+    const pdfBuffer = await generatePDF(grn);
+
+    const localFilePath = `grn_${grn.id}.pdf`; // Save at the root of the folder
+
+    fs.writeFileSync(localFilePath, pdfBuffer);
+    console.log(`Downloaded PDF for GRN ID: ${grn.id} to ${localFilePath}`);
 }
 
 function generatePDF(grn) {
@@ -77,3 +62,5 @@ function generatePDF(grn) {
         doc.end();
     });
 }
+
+handler();
