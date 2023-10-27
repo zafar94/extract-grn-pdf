@@ -8,6 +8,7 @@ const moment = require('moment');
 const EmailService = require('./email-service');
 const ejs = require('ejs');
 const path = require('path');
+var html_to_pdf = require('html-pdf-node');
 
 const dbConfig = {
     user: 'postgres',
@@ -182,7 +183,8 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
             console.log('------HTNLLNLNLNLNN START---->>>')
 
             const html = await renderEmailTemplate(templatePayload);
-            console.log('------HTNLLNLNLNLNN---->>>', html)
+            console.log('------HTNLLNLNLNLNN---->>>')
+
             await generateAndDownloadPDF(html)
 
             // pdfPromises.push(this.pdfService.getPdfBuffer(html, { timeout: 1800000 }).then(pdfBuffer => {
