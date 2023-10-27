@@ -185,3 +185,35 @@ async function getBulkPurchaseOrderGRNPdfs() {
     const zipPdf = await zip.generateAsync({ type: "nodebuffer" });
     return zipPdf;
 }
+
+
+async function getPOGRNDetailsWithSupplierProductDetails() {
+    const query = `
+    select po.id id, po.created_at createdAt, d.name supplierName,
+        po.total_price totalPrice, w.name warehouseName, p.name productName,
+        poi.id purchaseOrderItemId,
+        poi.check_in_total_price productTotalPrice, poi.check_in_unit_price productUnitPrice, poi.units productUnits, poi.checked_in_quantity checkedInQuantity,
+        pog.invoice_amount, pog.advance_income_tax advanceIncomeTax, po.delivery_person_name deliveryPersonName,
+        pog.discount, pog.promotion,
+        po.delivery_person_contact deliveryPersonContact, u.first_name firstName, u.last_name lastName, u.contact_number checkinUserContact,
+        pog.name grnName, po.created_at poCreatedAt,
+        pog.sales_tax salesTax, pog.amount amount, pog.delivery_charges deliveryCharges, pog.delivery_charges_comments deliveryChargesComments,
+        pogi.receipts invoiceReceipts, pog.id grnid
+        from purchase_order po
+        left join purchase_order_item poi on po.id = poi.purchase_order_id
+        left join "user" u on u.id = po.check_in_user_id
+        left join product p on p.id = poi.product_id
+        left join distributor d on d.id = po.distributor_id
+        left join warehouse w on w.id = po.warehouse_id
+        left join purchase_order_grn pog on po.id = pog.purchase_order_id
+        left join purchase_order_grn_invoices pogi on pog.id = pogi.purchase_order_grn_id
+        where po.deleted_at is null and poi.deleted_at is null
+        and p.deleted_at is null
+        and d.deleted_at is null and w.deleted_at is null
+        and pog.deleted_at is null
+        and pogi.deleted_at is null
+        and pogi."type" = 'FINAL'
+        and pog.id in (${grnIds})`;
+    
+    return query;
+}
