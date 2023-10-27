@@ -6,6 +6,7 @@ const fs = require('fs');
 const _ = require('lodash');
 const moment = require('moment');
 const EmailService = require('./email-service');
+const path = require('path');
 
 const dbConfig = {
     user: 'postgres',
