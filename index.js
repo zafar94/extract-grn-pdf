@@ -229,15 +229,6 @@ function groupBy(collection, property) {
     return result;
 }
 
-function renderEmailTemplate(data, options) {
-    try {
-        const templateCompletePath = path.resolve('./purchaseOrderGRN.ejs');
-        return ejs.renderFile(templateCompletePath, data, options);
-    } catch (err) {
-        console.log('renderEmailTemplate ERRROR', err);
-    }
-}
-
 async function generatePDF(templatePayload) {
     const browser = await puppeteer.launch()
 
