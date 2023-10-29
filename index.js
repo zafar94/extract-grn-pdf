@@ -161,9 +161,12 @@ async function getPOGRNDetailsWithSupplierProductDetails(client) {
     return result;
 }
 
-SELECT * FROM grn_extraction_track
+async function getGRNIdsToExtract(client) {
+
+    SELECT * FROM grn_extraction_track
 where extracted = false and extracted_time is null 
 limit 10;
+}
 
 function groupBy(collection, property) {
     var i = 0, val, index,
