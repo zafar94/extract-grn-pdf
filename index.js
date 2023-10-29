@@ -83,7 +83,7 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
             const receiptsCombined = _.uniq(_.flatten(uniqueGrns.map((grn) => grn.invoicereceipts)));
             const receipts = []
             const textToRemove = 'https://airlift-grocer-production-uploads.s3.ap-southeast-1.amazonaws.com/grocer/'
-            
+
             for (let receipt of receiptsCombined) {
 
                 if (receipt.includes(textToRemove)) {
@@ -245,6 +245,8 @@ async function generatePDF(templatePayload) {
 
     const html = htmlContent;
     // const html = fs.readFileSync(`${__dirname}/template.html`, 'utf8')
+    const templateCompletePath = path.resolve('./purchaseOrderGRN.ejs');
+    ejs.renderFile(templateCompletePath, data, options);
     await page.setContent(html, {
         waitUntil: 'domcontentloaded'
     })
