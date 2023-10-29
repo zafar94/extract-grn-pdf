@@ -38,10 +38,7 @@ handler = async (event, context) => {
     }
 };
 
-
 handler();
-
-
 
 async function getBulkPurchaseOrderGRNPdfs(client) {
     // const zip = new jszip();
@@ -51,10 +48,8 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
     const pdfPromises = [];
     for (const po of groupByPoId) {
         try {
-
             let url = 'https://airlift-grocer-production-uploads-misc.s3.ap-southeast-1.amazonaws.com' + '/';
             url += 'po-invoices' + '/';
-
 
             const unsortedUniqueGrns = _.uniqBy(po, 'grnid');
             const uniqueGrns = unsortedUniqueGrns.sort((a, b) => {
@@ -63,15 +58,11 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
                 return 0;
             });
             const uniquePurchaseOrderItems = _.uniqBy(po, 'purchaseorderitemid');
-
-
-
             const receiptsCombined = _.uniq(_.flatten(uniqueGrns.map((grn) => grn.invoicereceipts)));
             const receipts = []
             const textToRemove = 'https://airlift-grocer-production-uploads.s3.ap-southeast-1.amazonaws.com/grocer/'
 
             for (let receipt of receiptsCombined) {
-
                 if (receipt.includes(textToRemove)) {
                     receipts.push(receipt);
                 } else {
@@ -80,7 +71,6 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
             }
             console.log('FINAL receipts-->>', receipts)
             let totalPOAmount = 0;
-
             for (const item of uniqueGrns) {
                 totalPOAmount += item.amount
             }
@@ -147,7 +137,6 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
     // const zipPdf = await zip.generateAsync({ type: "nodebuffer" });
     // return zipPdf;
 }
-
 
 async function getPOGRNDetailsWithSupplierProductDetails(client) {
     const result = await client.query(`select po.id id, po.created_at createdAt, d.name supplierName,
