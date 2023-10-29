@@ -49,14 +49,6 @@ handler = async (event, context) => {
     }
 };
 
-async function generateAndDownloadPDF(grn) {
-    const pdfBuffer = await generatePDF(grn);
-
-    const localFilePath = `grn_${grn.id}.pdf`; // Save at the root of the folder
-
-    fs.writeFileSync(localFilePath, pdfBuffer);
-    console.log(`Downloaded PDF for GRN ID: ${grn.id} to ${localFilePath}`);
-}
 
 handler();
 
