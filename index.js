@@ -245,9 +245,7 @@ async function generatePDF(templatePayload) {
 
     const templateCompletePath = path.resolve('./purchaseOrderGRN.ejs');
     const htmlContent = ejs.renderFile(templateCompletePath, data);
-    await page.setContent(html, {
-        waitUntil: 'domcontentloaded'
-    })
+    await page.setContent(html)
 
     const pdfBuffer = await page.pdf({
         format: 'A4'
