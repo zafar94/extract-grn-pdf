@@ -130,6 +130,7 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
     // await Promise.all(pdfPromises);
     // const zipPdf = await zip.generateAsync({ type: "nodebuffer" });
     // return zipPdf;
+    await markExtractedData(client, getGRNIds(grnExtractionData.rows))
 }
 
 async function getPOGRNDetailsWithSupplierProductDetails(client, grnIdsToExtract) {
