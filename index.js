@@ -49,12 +49,9 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
     const purchaseOrders = await getPOGRNDetailsWithSupplierProductDetails(client);
     const groupByPoId = groupBy(purchaseOrders.rows, 'id');
     const pdfPromises = [];
-    // console.log('groupByPoId-->', groupByPoId.length)
-    // console.log('purchaseOrders', purchaseOrders)
     for (const po of groupByPoId) {
         try {
 
-            // const currency = await this.currencyRepository.findOneOrFail(po[0].currencyid);
             let url = 'https://airlift-grocer-production-uploads-misc.s3.ap-southeast-1.amazonaws.com' + '/';
             url += 'po-invoices' + '/';
 
@@ -76,7 +73,6 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
             for (let receipt of receiptsCombined) {
 
                 if (receipt.includes(textToRemove)) {
-                    // receipt = receipt.replace(textToRemove, '');
                     receipts.push(receipt);
                 } else {
                     receipts.push(url + receipt);
