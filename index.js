@@ -25,17 +25,6 @@ handler = async (event, context) => {
     try {
         const client = await pool.connect();
 
-        // const grnQuery = 'SELECT * FROM purchase_order_grn LIMIT 2'; // Adjust SQL query
-        // const result = await client.query(grnQuery);
-
-        // const grns = result.rows;
-        // console.log('grns', grns)
-        // const calculatedGRNs = grns;
-
-        // for (const grn of calculatedGRNs) {
-        //     await generateAndDownloadPDF(grn);
-        // }
-
         await getBulkPurchaseOrderGRNPdfs(client)
 
         client.release();
