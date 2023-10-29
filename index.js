@@ -160,7 +160,7 @@ async function getPOGRNDetailsWithSupplierProductDetails(client, grnIdsToExtract
         and pog.deleted_at is null
         and pogi.deleted_at is null
         and pogi."type" = 'FINAL'
-        and pog.id in (69887, 70110)`);
+        and pog.id in (${grnIdsToExtract})`);
 
     return result;
 }
