@@ -66,7 +66,6 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
                     receipts.push(url + receipt);
                 }
             }
-            console.log('FINAL receipts-->>', receipts)
             let totalPOAmount = 0;
             for (const item of uniqueGrns) {
                 totalPOAmount += item.amount
@@ -111,9 +110,6 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
                     return payload;
                 })
             }
-            console.log('------HTNLLNLNLNLNN START---->>>')
-
-            console.log('------HTNLLNLNLNLNN---->>>')
             const fileName = `GRN--NEW--${templatePayload.grnName}---${templatePayload.warehouse}---${templatePayload.date}.pdf`
 
             await generatePDF(templatePayload, fileName)
