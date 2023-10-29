@@ -166,6 +166,7 @@ async function getGRNIdsToExtract(client) {
         where extracted = false and extracted_time is null 
         limit 10;`)
 
+    return result;
 }
 
 function groupBy(collection, property) {
