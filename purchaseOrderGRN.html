@@ -1,0 +1,172 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+    <style type="text/css">
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        td,
+        th {
+            padding: 3px 10px;
+            border: 1px solid #999999;
+        }
+
+        th {
+            font-weight: bold;
+        }
+
+        .heading {
+            text-align: center;
+        }
+
+        .heading img {
+            padding: 20px;
+            height: 35px;
+            width: auto;
+        }
+
+        .m-0 {
+            margin: 0;
+        }
+
+        .m-t-0 {
+            margin-top: 0;
+        }
+
+        .red {
+            color: #db2032;
+        }
+
+        body {
+            font-size: 12px;
+        }
+
+        .body {
+            font-size: 10px;
+        }
+
+        #pageHeader {
+            text-align: right;
+        }
+
+        #pageHeader img {
+            height: 10px;
+            width: auto;
+            margin-right: 20px;
+        }
+
+        #pageFooter {
+            text-align: right;
+            font-size: 10px;
+        }
+
+        table,
+        tr,
+        td {
+            page-break-inside: avoid;
+        }
+
+        .index {
+            width: 20px;
+        }
+
+        table {
+            table-layout: fixed;
+            font-size: 8px;
+        }
+
+        .text-rght {
+            text-align: right;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="pageHeader-first">
+        <div class="heading">
+            <img src="https://airlift-assets-by-arifsamad.s3-ap-southeast-1.amazonaws.com/airlift_logo_red.png" />
+
+            <p class="red m-0">Airlift Grocer</p>
+            <p class="red m-0">
+            </p>
+            <p class="m-t-0">
+            </p>
+        </div>
+    </div>
+    <div id="pageHeader"><img
+            src="https://airlift-assets-by-arifsamad.s3-ap-southeast-1.amazonaws.com/airlift_logo_red.png" /></div>
+    <div id="pageFooter">Page {{page}} of {{pages}} </div>
+
+
+
+    <div class="body">
+
+        <div>
+            <div style="display: flex;">
+                <div style="flex: 1;">
+                    <p>Distributor: <%= supplierName %> <span style="float: right;">Received for Airlift by: <%=
+                                    checkInUserName %>
+                                    <%= checkInUserContact %> at <%= checkInTime %></span></p>
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <table>
+            <tr>
+                <th class="index"><span style="font-weight: bold;">S.No</span></th>
+                <th><span style="font-weight: bold;">Name</span></th>
+                <th><span style="font-weight: bold;">Checked-in Quantity</span></th>
+                <th><span style="font-weight: bold;">Unit Price</span></th>
+                <th><span style="font-weight: bold;">Total Price</span></th>
+            </tr>
+
+        </table>
+
+
+        <div style="margin-top:100px;">
+            <table>
+                <tr>
+                    <th><span style="font-weight: bold;">Name</span></th>
+                    <th><span style="font-weight: bold;">Total Price</span></th>
+                    <th><span style="font-weight: bold;">Delivery Charges</span></th>
+                    <th><span style="font-weight: bold;">Sales Tax</span></th>
+                    <th><span style="font-weight: bold;">Advance Income Tax</span></th>
+                    <th><span style="font-weight: bold;">Discount</span></th>
+                    <th><span style="font-weight: bold;">Promotion</span></th>
+                    <th><span style="font-weight: bold;">Total</span></th>
+                </tr>
+            </table>
+
+        </div>
+        <div>
+            <div style="display: flex;">
+                <div style="flex: 1">
+
+                </div>
+                <!-- <div style="flex: 1;">
+                            <p><span style="float: right;"> PO#: <%= poId %></span> </p>
+                        </div> -->
+            </div>
+        </div>
+    </div>
+
+    <div class="body">
+
+
+
+
+        <div style="margin-top: 50px;">
+
+        </div>
+
+    </div>
+</body>
+
+</html>
