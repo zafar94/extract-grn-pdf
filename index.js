@@ -171,7 +171,7 @@ async function getGRNIdsToExtract(client) {
     return result;
 }
 
-function getGRNIds(client) {
+function getGRNIds(grnExtractionData) {
     const result = await client.query(` SELECT grn_id, extracted, extracted_time FROM grn_extraction_track
         where extracted = false and extracted_time is null 
         limit 10;`)
