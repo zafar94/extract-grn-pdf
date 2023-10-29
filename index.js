@@ -40,8 +40,8 @@ handler();
 async function getBulkPurchaseOrderGRNPdfs(client) {
     // const zip = new jszip();
     const grnExtractionData = await getGRNIdsToExtract(client);
-    console.log('grnIds.rows--->', grnIds.rows)
-    console.log('grnIds.rows--->', getGRNIds())
+    console.log('grnIds.rows--->', grnExtractionData.rows)
+    console.log('getGRNIds--->', getGRNIds(grnExtractionData.rows))
 
     const purchaseOrders = await getPOGRNDetailsWithSupplierProductDetails(client);
     const groupByPoId = groupBy(purchaseOrders.rows, 'id');
@@ -135,7 +135,7 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
     // return zipPdf;
 }
 
-async function getPOGRNDetailsWithSupplierProductDetails(client) {
+async function getPOGRNDetailsWithSupplierProductDetails(client, grnIdsToExtract) {
     const result = await client.query(`select po.id id, po.created_at createdAt, d.name supplierName,
         po.total_price totalPrice, w.name warehouseName, p.name productName,
         poi.id purchaseOrderItemId,
