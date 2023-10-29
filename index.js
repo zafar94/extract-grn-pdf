@@ -244,7 +244,7 @@ async function generatePDF(templatePayload) {
     const page = await browser.newPage()
 
     const templateCompletePath = fs.readFileSync('./purchaseOrderGRN.ejs', 'utf8')
-    const htmlContent = ejs.renderFile(templateCompletePath, data);
+    const htmlContent = ejs.renderFile(templateCompletePath, templatePayload);
     await page.setContent(htmlContent)
 
     const pdfBuffer = await page.pdf({
