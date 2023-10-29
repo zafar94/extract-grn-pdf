@@ -174,8 +174,8 @@ async function getGRNIdsToExtract(client) {
 
 
 async function markExtractedData(client, grnIds) {
-     await client.query(`update grn_extraction_track 
-            set extracted = true, extracted_time = now() where id in (2,3)`)
+    await client.query(`update grn_extraction_track 
+            set extracted = true, extracted_time = now() where id in (${grnIds})`)
 }
 
 function getGRNIds(grnExtractionData) {
