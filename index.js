@@ -113,18 +113,6 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
                 checkInTime: moment(po[0].createdat).format('YYYY-MM-DD HH:mm'), //done
                 grnName: po[0].grnname,
                 distributorName: po[0].suppliername,
-                // salesTaxStatus: po[0].salestax && pog.salestax > 0 ? 'Exclusive' : 'Inclusive',
-                // amount: totalPrice,
-                // deliveryCharges: pog.deliverycharges,
-                // deliveryChargesComments: pog.deliverychargescomments,
-                // total: totalPrice + pog.deliverycharges + pog.salestax,
-                // salesTax: pog.salestax,
-                // receipts,
-                // currencyCode: 'PKR',
-                // invoiceAmount: totalPrice,
-                // advanceIncomeTax: pog.advanceincometax,
-                // discount: pog.discount,
-                // promotion: pog.promotion,
                 receiptsCombined: receipts,
                 totalPOAmount,
                 grns: uniqueGrns.map(grn => {
