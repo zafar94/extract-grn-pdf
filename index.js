@@ -113,9 +113,7 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
                 receiptsCombined: receipts,
                 totalPOAmount,
                 grns: uniqueGrns.map(grn => {
-                    // console.log('single GRN --->>', grn)
                     const payload = {
-                        // salesTaxStatus: grn.salestax && grn.salestax > 0 ? 'Exclusive' : 'Inclusive',
                         amount: grn.amount,
                         deliveryCharges: grn.deliverycharges,
                         deliveryChargesComments: grn.deliverychargescomments,
@@ -132,8 +130,6 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
                     return payload;
                 }),
                 items: uniquePurchaseOrderItems.map(checkinitem => {
-
-                    // const item = JSON.parse(checkinitem)
                     const payload = {
                         name: checkinitem.productname,
                         totalPrice: checkinitem.producttotalprice,
