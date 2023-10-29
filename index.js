@@ -194,7 +194,7 @@ function groupBy(collection, property) {
     return result;
 }
 
-async function generatePDF(templatePayload) {
+async function generatePDF(templatePayload, fileName) {
     const browser = await puppeteer.launch()
 
     const page = await browser.newPage()
