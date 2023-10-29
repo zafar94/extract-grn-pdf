@@ -41,6 +41,7 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
     // const zip = new jszip();
     const grnIds = await getGRNIdsToExtract(client);
     console.log('grnIds.rows--->', grnIds.rows)
+
     const purchaseOrders = await getPOGRNDetailsWithSupplierProductDetails(client);
     const groupByPoId = groupBy(purchaseOrders.rows, 'id');
     const pdfPromises = [];
@@ -172,11 +173,7 @@ async function getGRNIdsToExtract(client) {
 }
 
 function getGRNIds(grnExtractionData) {
-    const result = await client.query(` SELECT grn_id, extracted, extracted_time FROM grn_extraction_track
-        where extracted = false and extracted_time is null 
-        limit 10;`)
-
-    return result;
+    return grnExtractionData.map(ged => ged.grn_id)
 }
 
 function groupBy(collection, property) {
