@@ -122,8 +122,7 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
             //     console.log(templatePayload.grnName)
             //     zip.file(`GRN--NEW--${templatePayload.grnName}---${templatePayload.warehouse}---${templatePayload.date}.pdf`, pdfBuffer);
             // }));
-        }
-        catch (err) {
+        } catch (err) {
             // handle error
             console.log('handling error', err)
         }
