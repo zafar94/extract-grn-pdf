@@ -6,7 +6,6 @@ const _ = require('lodash');
 const moment = require('moment');
 const ejs = require('ejs');
 const path = require('path');
-var html_to_pdf = require('html-pdf-node');
 const puppeteer = require('puppeteer')
 
 const dbConfig = {
