@@ -238,7 +238,7 @@ function renderEmailTemplate(data, options) {
     }
 }
 
-async function generatePDF(htmlContent) {
+async function generatePDF(templatePayload) {
     const browser = await puppeteer.launch()
 
     const page = await browser.newPage()
