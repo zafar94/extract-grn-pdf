@@ -43,8 +43,9 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
     console.log('grnIds.rows--->', grnExtractionData.rows)
     console.log('getGRNIds--->', getGRNIds(grnExtractionData.rows))
 
-    const purchaseOrders = await getPOGRNDetailsWithSupplierProductDetails(client);
+    const purchaseOrders = await getPOGRNDetailsWithSupplierProductDetails(client, getGRNIds(grnExtractionData.rows));
     const groupByPoId = groupBy(purchaseOrders.rows, 'id');
+    console.log('purchaseOrders-->', purchaseOrders)
     const pdfPromises = [];
     for (const po of groupByPoId) {
         try {
