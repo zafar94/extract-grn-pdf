@@ -162,10 +162,10 @@ async function getPOGRNDetailsWithSupplierProductDetails(client) {
 }
 
 async function getGRNIdsToExtract(client) {
+    const result = await client.query(` SELECT * FROM grn_extraction_track
+        where extracted = false and extracted_time is null 
+        limit 10;`)
 
-    SELECT * FROM grn_extraction_track
-where extracted = false and extracted_time is null 
-limit 10;
 }
 
 function groupBy(collection, property) {
