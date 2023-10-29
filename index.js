@@ -126,7 +126,7 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
             // handle error
             console.log('handling error', err)
         } finally {
-            markExtractedData(getGRNIds(grnExtractionData.rows))
+            markExtractedData(client, getGRNIds(grnExtractionData.rows))
         }
     }
     // await Promise.all(pdfPromises);
