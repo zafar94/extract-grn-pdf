@@ -120,7 +120,7 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
             console.log('------HTNLLNLNLNLNN---->>>')
             const fileName = `GRN--NEW--${templatePayload.grnName}---${templatePayload.warehouse}---${templatePayload.date}.pdf`
 
-            await generatePDF(templatePayload)
+            await generatePDF(templatePayload, fileName)
 
             // pdfPromises.push(this.pdfService.getPdfBuffer(html, { timeout: 1800000 }).then(pdfBuffer => {
             //     console.log(templatePayload.grnName)
