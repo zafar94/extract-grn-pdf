@@ -171,6 +171,14 @@ async function getGRNIdsToExtract(client) {
     return result;
 }
 
+function getGRNIds(client) {
+    const result = await client.query(` SELECT grn_id, extracted, extracted_time FROM grn_extraction_track
+        where extracted = false and extracted_time is null 
+        limit 10;`)
+
+    return result;
+}
+
 function groupBy(collection, property) {
     var i = 0, val, index,
         values = [], result = [];
