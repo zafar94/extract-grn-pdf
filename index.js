@@ -161,7 +161,7 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
             // console.log('templatePayload', templatePayload)
             console.log('------HTNLLNLNLNLNN START---->>>')
 
-            const html = await renderEmailTemplate(templatePayload);
+            // const html = await renderEmailTemplate(templatePayload);
             console.log('------HTNLLNLNLNLNN---->>>')
 
             // await generateAndDownloadPDF(html)
