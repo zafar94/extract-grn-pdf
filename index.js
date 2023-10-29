@@ -4,7 +4,6 @@ require('aws-sdk/lib/maintenance_mode_message').suppress = true;
 const fs = require('fs');
 const _ = require('lodash');
 const moment = require('moment');
-const EmailService = require('./email-service');
 const ejs = require('ejs');
 const path = require('path');
 var html_to_pdf = require('html-pdf-node');
