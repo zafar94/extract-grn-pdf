@@ -176,7 +176,7 @@ async function getPOIdsToExtract(client) {
 
 
 async function markExtractedData(client, grnIds) {
-    await client.query(`update grn_extraction_track 
+    await client.query(`update po_extraction_track 
             set extracted = true, extracted_time = now() where grn_id in (${grnIds})`)
 }
 
