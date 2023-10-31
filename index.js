@@ -48,7 +48,6 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
     const poExtractionData = await getPOIdsToExtract(client);
     const purchaseOrders = await getPOGRNDetailsWithSupplierProductDetails(client, getGRNIds(poExtractionData.rows));
     const groupByPoId = groupBy(purchaseOrders.rows, 'id');
-    const pdfPromises = [];
     for (const po of groupByPoId) {
         try {
             let url = 'https://airlift-grocer-production-uploads-misc.s3.ap-southeast-1.amazonaws.com' + '/';
