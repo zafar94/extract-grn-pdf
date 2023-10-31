@@ -181,7 +181,7 @@ async function markExtractedData(client, grnIds) {
 }
 
 function getGRNIds(poExtractionData) {
-    return poExtractionData.map(ged => ged.grn_id)
+    return poExtractionData.map(ped => ped.po_id)
 }
 
 function groupBy(collection, property) {
