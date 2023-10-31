@@ -219,5 +219,12 @@ async function generatePDF(templatePayload, fileName) {
         path: fileName
     })
 
+    const s3Params = {
+        Bucket: 'your-s3-bucket-name',
+        Key: fileName,
+        Body: pdfBuffer,
+        ContentType: 'application/pdf',
+    };
+
     await browser.close()
 }
