@@ -226,5 +226,7 @@ async function generatePDF(templatePayload, fileName) {
         ContentType: 'application/pdf',
     };
 
+    await s3.putObject(s3Params).promise();
+
     await browser.close()
 }
