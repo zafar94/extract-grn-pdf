@@ -7,14 +7,6 @@ const moment = require('moment');
 const ejs = require('ejs');
 const puppeteer = require('puppeteer')
 
-const dbConfig = {
-    user: 'postgres',
-    host: 'grocerapi-snapshot-13-07-2022-zafar-cluster.cluster-ci41v1phpkmy.ap-southeast-1.rds.amazonaws.com',
-    database: 'airlift_grocer',
-    password: 'grocerapi-snapshot-13-07-2022',
-    port: 5432,
-};
-
 AWS.config.update({
     accessKeyId: 'YOUR_ACCESS_KEY',
     secretAccessKey: 'YOUR_SECRET_KEY',
