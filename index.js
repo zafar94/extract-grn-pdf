@@ -169,6 +169,7 @@ async function getPOGRNDetailsWithSupplierProductDetails(client, poIdsToExtract)
 async function getPOIdsToExtract(client) {
     const result = await client.query(`SELECT po_id, extracted, extracted_time FROM po_extraction_track
         where extracted = false and extracted_time is null 
+        order by po_id desc
         limit 10;`)
 
     return result;
