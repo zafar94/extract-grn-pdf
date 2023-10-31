@@ -16,6 +16,13 @@ const dbConfig = {
     port: 5432,
 };
 
+AWS.config.update({
+    accessKeyId: 'YOUR_ACCESS_KEY',
+    secretAccessKey: 'YOUR_SECRET_KEY',
+    region: 'YOUR_S3_REGION',
+});
+
+
 handler = async (event, context) => {
     const pool = new Pool(dbConfig);
 
