@@ -22,6 +22,7 @@ AWS.config.update({
     region: 'YOUR_S3_REGION',
 });
 
+const s3 = new AWS.S3();
 
 handler = async (event, context) => {
     const pool = new Pool(dbConfig);
