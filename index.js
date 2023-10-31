@@ -214,10 +214,10 @@ async function generatePDF(templatePayload, fileName) {
         format: 'A4'
     })
 
-    await page.pdf({
-        format: 'A4',
-        path: fileName
-    })
+    // await page.pdf({
+    //     format: 'A4',
+    //     path: fileName
+    // })
 
     const s3Params = {
         Bucket: 'your-s3-bucket-name',
