@@ -220,7 +220,7 @@ async function generatePDF(templatePayload, fileName) {
     // })
 
     const s3Params = {
-        Bucket: 'your-s3-bucket-name',
+        Bucket: 'airlift-26-10-2023-zafar',
         Key: fileName,
         Body: pdfBuffer,
         ContentType: 'application/pdf',
