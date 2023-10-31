@@ -117,7 +117,7 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
                     return payload;
                 })
             }
-            const fileName = `GRN--NEW--${templatePayload.grnName}---${templatePayload.warehouse}---${templatePayload.date}.pdf`
+            const fileName = `PO-${templatePayload.poId}---${templatePayload.warehouse}---${templatePayload.date}.pdf`
 
             await generatePDF(templatePayload, fileName)
 
