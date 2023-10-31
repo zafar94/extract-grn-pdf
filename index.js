@@ -45,7 +45,6 @@ handler = async (event, context) => {
 handler();
 
 async function getBulkPurchaseOrderGRNPdfs(client) {
-    // const zip = new jszip();
     const poExtractionData = await getPOIdsToExtract(client);
     const purchaseOrders = await getPOGRNDetailsWithSupplierProductDetails(client, getGRNIds(poExtractionData.rows));
     const groupByPoId = groupBy(purchaseOrders.rows, 'id');
@@ -121,16 +120,11 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
 
             await generatePDF(templatePayload, fileName)
 
-            // pdfPromises.push(this.pdfService.getPdfBuffer(html, { timeout: 1800000 }).then(pdfBuffer => {
-            //     console.log(templatePayload.grnName)
-            //     zip.file(`GRN--NEW--${templatePayload.grnName}---${templatePayload.warehouse}---${templatePayload.date}.pdf`, pdfBuffer);
-            // }));
         } catch (err) {
-            // handle error
             console.log('handling error', err)
         }
     }
-   
+
     await markExtractedData(client, getGRNIds(poExtractionData.rows))
 }
 
