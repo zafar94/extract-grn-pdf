@@ -47,7 +47,7 @@ handler();
 async function getBulkPurchaseOrderGRNPdfs(client) {
     // const zip = new jszip();
     const poExtractionData = await getPOIdsToExtract(client);
-    const purchaseOrders = await getPOGRNDetailsWithSupplierProductDetails(client, getGRNIds(grnExtractionData.rows));
+    const purchaseOrders = await getPOGRNDetailsWithSupplierProductDetails(client, getGRNIds(poExtractionData.rows));
     const groupByPoId = groupBy(purchaseOrders.rows, 'id');
     const pdfPromises = [];
     for (const po of groupByPoId) {
@@ -133,7 +133,7 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
     // await Promise.all(pdfPromises);
     // const zipPdf = await zip.generateAsync({ type: "nodebuffer" });
     // return zipPdf;
-    await markExtractedData(client, getGRNIds(grnExtractionData.rows))
+    await markExtractedData(client, getGRNIds(poExtractionData.rows))
 }
 
 async function getPOGRNDetailsWithSupplierProductDetails(client, poIdsToExtract) {
@@ -180,8 +180,8 @@ async function markExtractedData(client, grnIds) {
             set extracted = true, extracted_time = now() where grn_id in (${grnIds})`)
 }
 
-function getGRNIds(grnExtractionData) {
-    return grnExtractionData.map(ged => ged.grn_id)
+function getGRNIds(poExtractionData) {
+    return poExtractionData.map(ged => ged.grn_id)
 }
 
 function groupBy(collection, property) {
