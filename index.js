@@ -5,16 +5,15 @@ const fs = require('fs');
 const _ = require('lodash');
 const moment = require('moment');
 const ejs = require('ejs');
-const path = require('path');
 const puppeteer = require('puppeteer')
 
-const dbConfig = {
-    user: 'postgres',
-    host: 'grocerapi-snapshot-13-07-2022-zafar-cluster.cluster-ci41v1phpkmy.ap-southeast-1.rds.amazonaws.com',
-    database: 'airlift_grocer',
-    password: 'grocerapi-snapshot-13-07-2022',
-    port: 5432,
-};
+AWS.config.update({
+    accessKeyId: 'YOUR_ACCESS_KEY',
+    secretAccessKey: 'YOUR_SECRET_KEY',
+    region: 'YOUR_S3_REGION',
+});
+
+const s3 = new AWS.S3();
 
 handler = async (event, context) => {
     const pool = new Pool(dbConfig);
@@ -35,14 +34,10 @@ handler = async (event, context) => {
     }
 };
 
-handler();
-
 async function getBulkPurchaseOrderGRNPdfs(client) {
-    // const zip = new jszip();
-    const grnExtractionData = await getGRNIdsToExtract(client);
-    const purchaseOrders = await getPOGRNDetailsWithSupplierProductDetails(client, getGRNIds(grnExtractionData.rows));
+    const poExtractionData = await getPOIdsToExtract(client);
+    const purchaseOrders = await getPOGRNDetailsWithSupplierProductDetails(client, getGRNIds(poExtractionData.rows));
     const groupByPoId = groupBy(purchaseOrders.rows, 'id');
-    const pdfPromises = [];
     for (const po of groupByPoId) {
         try {
             let url = 'https://airlift-grocer-production-uploads-misc.s3.ap-southeast-1.amazonaws.com' + '/';
@@ -78,7 +73,7 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
                 warehouse: po[0].warehousename,
                 checkInUserName: po[0].firstname ? `${po[0].firstname} ${po[0].lastname}` : '-',
                 checkInUserContact: po[0].checkinusercontact ? po[0].checkinusercontact : '-',
-                checkInTime: moment(po[0].createdat).format('YYYY-MM-DD HH:mm'), //done
+                checkInTime: moment(po[0].createdat).format('YYYY-MM-DD HH:mm'),
                 grnName: po[0].grnname,
                 distributorName: po[0].suppliername,
                 receiptsCombined: receipts,
@@ -110,26 +105,19 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
                     return payload;
                 })
             }
-            const fileName = `GRN--NEW--${templatePayload.grnName}---${templatePayload.warehouse}---${templatePayload.date}.pdf`
+            const fileName = `PO-${templatePayload.poId}---${templatePayload.warehouse}---${templatePayload.date}.pdf`
 
             await generatePDF(templatePayload, fileName)
 
-            // pdfPromises.push(this.pdfService.getPdfBuffer(html, { timeout: 1800000 }).then(pdfBuffer => {
-            //     console.log(templatePayload.grnName)
-            //     zip.file(`GRN--NEW--${templatePayload.grnName}---${templatePayload.warehouse}---${templatePayload.date}.pdf`, pdfBuffer);
-            // }));
         } catch (err) {
-            // handle error
             console.log('handling error', err)
         }
     }
-    // await Promise.all(pdfPromises);
-    // const zipPdf = await zip.generateAsync({ type: "nodebuffer" });
-    // return zipPdf;
-    await markExtractedData(client, getGRNIds(grnExtractionData.rows))
+
+    await markExtractedData(client, getGRNIds(poExtractionData.rows))
 }
 
-async function getPOGRNDetailsWithSupplierProductDetails(client, grnIdsToExtract) {
+async function getPOGRNDetailsWithSupplierProductDetails(client, poIdsToExtract) {
     const result = await client.query(`select po.id id, po.created_at createdAt, d.name supplierName,
         po.total_price totalPrice, w.name warehouseName, p.name productName,
         poi.id purchaseOrderItemId,
@@ -154,14 +142,15 @@ async function getPOGRNDetailsWithSupplierProductDetails(client, grnIdsToExtract
         and pog.deleted_at is null
         and pogi.deleted_at is null
         and pogi."type" = 'FINAL'
-        and pog.id in (${grnIdsToExtract})`);
+        and pog.purchase_order_id in (${poIdsToExtract})`);
 
     return result;
 }
 
-async function getGRNIdsToExtract(client) {
-    const result = await client.query(`SELECT grn_id, extracted, extracted_time FROM grn_extraction_track
+async function getPOIdsToExtract(client) {
+    const result = await client.query(`SELECT po_id, extracted, extracted_time FROM po_extraction_track
         where extracted = false and extracted_time is null 
+        order by po_id desc
         limit 10;`)
 
     return result;
@@ -169,12 +158,12 @@ async function getGRNIdsToExtract(client) {
 
 
 async function markExtractedData(client, grnIds) {
-    await client.query(`update grn_extraction_track 
-            set extracted = true, extracted_time = now() where grn_id in (${grnIds})`)
+    await client.query(`update po_extraction_track 
+            set extracted = true, extracted_time = now() where po_id in (${grnIds})`)
 }
 
-function getGRNIds(grnExtractionData) {
-    return grnExtractionData.map(ged => ged.grn_id)
+function getGRNIds(poExtractionData) {
+    return poExtractionData.map(ped => ped.po_id)
 }
 
 function groupBy(collection, property) {
@@ -206,10 +195,19 @@ async function generatePDF(templatePayload, fileName) {
         format: 'A4'
     })
 
-    await page.pdf({
-        format: 'A4',
-        path: fileName
-    })
+    // await page.pdf({
+    //     format: 'A4',
+    //     path: fileName
+    // })
+
+    const s3Params = {
+        Bucket: 'airlift-26-10-2023-zafar',
+        Key: fileName,
+        Body: pdfBuffer,
+        ContentType: 'application/pdf',
+    };
+
+    await s3.putObject(s3Params).promise();
 
     await browser.close()
 }
