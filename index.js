@@ -5,7 +5,6 @@ const fs = require('fs');
 const _ = require('lodash');
 const moment = require('moment');
 const ejs = require('ejs');
-const path = require('path');
 const puppeteer = require('puppeteer')
 
 const dbConfig = {
