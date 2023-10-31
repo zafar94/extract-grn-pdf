@@ -85,7 +85,7 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
                 warehouse: po[0].warehousename,
                 checkInUserName: po[0].firstname ? `${po[0].firstname} ${po[0].lastname}` : '-',
                 checkInUserContact: po[0].checkinusercontact ? po[0].checkinusercontact : '-',
-                checkInTime: moment(po[0].createdat).format('YYYY-MM-DD HH:mm'), //done
+                checkInTime: moment(po[0].createdat).format('YYYY-MM-DD HH:mm'),
                 grnName: po[0].grnname,
                 distributorName: po[0].suppliername,
                 receiptsCombined: receipts,
