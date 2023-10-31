@@ -166,7 +166,7 @@ async function getPOGRNDetailsWithSupplierProductDetails(client, poIdsToExtract)
     return result;
 }
 
-async function getGRNIdsToExtract(client) {
+async function getPOIdsToExtract(client) {
     const result = await client.query(`SELECT po_id, extracted, extracted_time FROM po_extraction_track
         where extracted = false and extracted_time is null 
         limit 10;`)
