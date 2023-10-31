@@ -42,8 +42,6 @@ handler = async (event, context) => {
     }
 };
 
-handler();
-
 async function getBulkPurchaseOrderGRNPdfs(client) {
     const poExtractionData = await getPOIdsToExtract(client);
     const purchaseOrders = await getPOGRNDetailsWithSupplierProductDetails(client, getGRNIds(poExtractionData.rows));
