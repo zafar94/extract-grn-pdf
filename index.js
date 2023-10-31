@@ -136,7 +136,7 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
     await markExtractedData(client, getGRNIds(grnExtractionData.rows))
 }
 
-async function getPOGRNDetailsWithSupplierProductDetails(client, grnIdsToExtract) {
+async function getPOGRNDetailsWithSupplierProductDetails(client, poIdsToExtract) {
     const result = await client.query(`select po.id id, po.created_at createdAt, d.name supplierName,
         po.total_price totalPrice, w.name warehouseName, p.name productName,
         poi.id purchaseOrderItemId,
@@ -161,7 +161,7 @@ async function getPOGRNDetailsWithSupplierProductDetails(client, grnIdsToExtract
         and pog.deleted_at is null
         and pogi.deleted_at is null
         and pogi."type" = 'FINAL'
-        and pog.purchase_order_id in (${grnIdsToExtract})`);
+        and pog.purchase_order_id in (${poIdsToExtract})`);
 
     return result;
 }
