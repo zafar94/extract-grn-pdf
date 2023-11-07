@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@sparticuz/chromium": "^109.0.5",
     "aws-sdk": "^2.1481.0",
     "ejs": "^3.1.9",
     "lodash": "^4.17.21",
