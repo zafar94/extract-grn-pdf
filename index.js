@@ -42,6 +42,13 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
     const poExtractionData = await getPOIdsToExtract(client);
     const purchaseOrders = await getPOGRNDetailsWithSupplierProductDetails(client, getGRNIds(poExtractionData.rows));
     const groupByPoId = groupBy(purchaseOrders.rows, 'id');
+    const browser = await puppeteer.launch({
+        executablePath: await chromium.executablePath(),
+        headless: chromium.headless,
+        ignoreHTTPSErrors: true,
+        defaultViewport: chromium.defaultViewport,
+        args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
+    });
     for (const po of groupByPoId) {
         try {
             let url = 'https://airlift-grocer-production-uploads-misc.s3.ap-southeast-1.amazonaws.com' + '/';
