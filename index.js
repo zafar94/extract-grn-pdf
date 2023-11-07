@@ -26,7 +26,10 @@ exports.handler = async (event, context) => {
 
         client.release();
 
-        return 'Process completed successfully';
+        return {
+            status: 200,
+            message: 'Process completed successfully'
+        };
     } catch (error) {
         console.error(error);
         return 'Error processing GRNs';
