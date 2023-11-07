@@ -125,7 +125,9 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
         }
     }
     try {
-
+        for (const page of pages) {
+            page.close;
+        }
     } catch (e) {
         console.log('ERROR IN  BROWSER CLOSED', e)
     }
