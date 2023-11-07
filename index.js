@@ -15,7 +15,7 @@ AWS.config.update({
 });
 
 const s3 = new AWS.S3();
-
+const pages = [];
 exports.handler = async (event, context) => {
     const pool = new Pool(dbConfig);
 
