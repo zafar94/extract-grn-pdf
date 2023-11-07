@@ -118,7 +118,7 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
             }
             const fileName = `PO-${templatePayload.poId}---${templatePayload.warehouse}---${templatePayload.date}.pdf`
 
-            await generatePDF(templatePayload, fileName)
+            await generatePDF(templatePayload, fileName, browser)
 
         } catch (err) {
             console.log('handling error', err)
