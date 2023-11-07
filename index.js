@@ -124,6 +124,11 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
             console.log('handling error', err)
         }
     }
+    try {
+
+    } catch (e) {
+        console.log('ERROR IN  BROWSER CLOSED', e)
+    }
 
     await markExtractedData(client, getGRNIds(poExtractionData.rows))
 }
