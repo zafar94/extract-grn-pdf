@@ -194,10 +194,8 @@ function groupBy(collection, property) {
 }
 
 async function generatePDF(templatePayload, fileName, browser) {
-    const browser = await puppeteer.launch()
 
     const page = await browser.newPage()
-
     const templateCompletePath = fs.readFileSync('./purchaseOrderGRN.ejs', 'utf8')
     const htmlContent = ejs.render(templateCompletePath, templatePayload);
     await page.setContent(htmlContent)
