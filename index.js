@@ -6,6 +6,7 @@ const fs = require('fs');
 const _ = require('lodash');
 const moment = require('moment');
 const ejs = require('ejs');
+const chromium = require("@sparticuz/chromium");
 
 AWS.config.update({
     accessKeyId: 'YOUR_ACCESS_KEY',
