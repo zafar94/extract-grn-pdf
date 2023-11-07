@@ -1,3 +1,4 @@
+const puppeteer = require("puppeteer-core");
 const AWS = require('aws-sdk');
 const { Pool } = require('pg');
 require('aws-sdk/lib/maintenance_mode_message').suppress = true;
@@ -5,7 +6,7 @@ const fs = require('fs');
 const _ = require('lodash');
 const moment = require('moment');
 const ejs = require('ejs');
-const puppeteer = require('puppeteer')
+const chromium = require("@sparticuz/chromium");
 
 AWS.config.update({
     accessKeyId: 'YOUR_ACCESS_KEY',
@@ -14,8 +15,8 @@ AWS.config.update({
 });
 
 const s3 = new AWS.S3();
-
-handler = async (event, context) => {
+const pages = [];
+exports.handler = async (event, context) => {
     const pool = new Pool(dbConfig);
 
     try {
@@ -25,7 +26,10 @@ handler = async (event, context) => {
 
         client.release();
 
-        return 'Process completed successfully';
+        return {
+            status: 200,
+            message: 'Process completed successfully'
+        };
     } catch (error) {
         console.error(error);
         return 'Error processing GRNs';
@@ -38,6 +42,13 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
     const poExtractionData = await getPOIdsToExtract(client);
     const purchaseOrders = await getPOGRNDetailsWithSupplierProductDetails(client, getGRNIds(poExtractionData.rows));
     const groupByPoId = groupBy(purchaseOrders.rows, 'id');
+    const browser = await puppeteer.launch({
+        executablePath: await chromium.executablePath(),
+        headless: chromium.headless,
+        ignoreHTTPSErrors: true,
+        defaultViewport: chromium.defaultViewport,
+        args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
+    });
     for (const po of groupByPoId) {
         try {
             let url = 'https://airlift-grocer-production-uploads-misc.s3.ap-southeast-1.amazonaws.com' + '/';
@@ -107,11 +118,19 @@ async function getBulkPurchaseOrderGRNPdfs(client) {
             }
             const fileName = `PO-${templatePayload.poId}---${templatePayload.warehouse}---${templatePayload.date}.pdf`
 
-            await generatePDF(templatePayload, fileName)
+            await generatePDF(templatePayload, fileName, browser)
 
         } catch (err) {
             console.log('handling error', err)
         }
+    }
+    try {
+        for (const page of pages) {
+            page.close;
+        }
+        browser.close()
+    } catch (e) {
+        console.log('ERROR IN  BROWSER CLOSED', e)
     }
 
     await markExtractedData(client, getGRNIds(poExtractionData.rows))
@@ -182,11 +201,9 @@ function groupBy(collection, property) {
     return result;
 }
 
-async function generatePDF(templatePayload, fileName) {
-    const browser = await puppeteer.launch()
+async function generatePDF(templatePayload, fileName, browser) {
 
     const page = await browser.newPage()
-
     const templateCompletePath = fs.readFileSync('./purchaseOrderGRN.ejs', 'utf8')
     const htmlContent = ejs.render(templateCompletePath, templatePayload);
     await page.setContent(htmlContent)
@@ -194,11 +211,6 @@ async function generatePDF(templatePayload, fileName) {
     const pdfBuffer = await page.pdf({
         format: 'A4'
     })
-
-    // await page.pdf({
-    //     format: 'A4',
-    //     path: fileName
-    // })
 
     const s3Params = {
         Bucket: 'airlift-26-10-2023-zafar',
@@ -208,6 +220,5 @@ async function generatePDF(templatePayload, fileName) {
     };
 
     await s3.putObject(s3Params).promise();
-
-    await browser.close()
+    pages.push(page)
 }
