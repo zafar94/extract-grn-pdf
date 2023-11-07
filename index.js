@@ -1,3 +1,4 @@
+const puppeteer = require("puppeteer-core");
 const AWS = require('aws-sdk');
 const { Pool } = require('pg');
 require('aws-sdk/lib/maintenance_mode_message').suppress = true;
